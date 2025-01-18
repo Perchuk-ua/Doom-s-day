@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController characterController;
 
     private bool canMove = true;
-    private bool canDoubleJump = false; 
+    private bool canDoubleJump = false;
 
     void Start()
     {
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
             else if (canDoubleJump)
             {
                 moveDirection.y = jumpPower;
-                canDoubleJump = false; 
+                canDoubleJump = false;
             }
         }
         else
@@ -65,19 +65,7 @@ public class PlayerMovement : MonoBehaviour
             moveDirection.y -= gravity * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.R) && canMove)
-        {
-            characterController.height = crouchHeight;
-            walkSpeed = crouchSpeed;
-            runSpeed = crouchSpeed;
-        }
-        else
-        {
-            characterController.height = defaultHeight;
-            walkSpeed = 6f;
-            runSpeed = 12f;
-        }
-
+       
         characterController.Move(moveDirection * Time.deltaTime);
 
         if (canMove)
@@ -86,6 +74,12 @@ public class PlayerMovement : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Cursor.visible = !Cursor.visible; // Переключає видимість курсора
+            Cursor.lockState = Cursor.visible ? CursorLockMode.None : CursorLockMode.Locked; // Переключає режим блокування курсора
         }
     }
 }
